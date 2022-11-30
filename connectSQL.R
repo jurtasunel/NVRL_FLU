@@ -10,8 +10,8 @@ library(gmailr)
 # Set working directory to the location of the scripts.
 setwd("/home/gabriel/Desktop/Jose/Projects/NVRL_FLU/Scripts/DB_tables")
 # Define constants for log into MySQL and access the NVRL_FLU database.
-USER <- "NVRL"
-PSW <- "Abm@Hs4#6xj3"
+USER <- "XXXX"
+PSW <- "XXXX"
 DB_NAME <- "NVRL_FLU"
 HOST <- "localhost"
 # Define global variable for MySQL connection.

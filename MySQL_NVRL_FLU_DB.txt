@@ -1,0 +1,93 @@
+CREATE TABLE Plate (
+ID int UNSIGNED NOT NULL AUTO_INCREMENT,
+Name varchar(32),
+Sequence_date date,
+PRIMARY KEY (ID)
+);
+
+CREATE TABLE Sequence_mutation (
+ID int UNSIGNED NOT NULL AUTO_INCREMENT,
+FK_Sequence_ID int UNSIGNED,
+FK_Mutation_ID int UNSIGNED,
+Frequency decimal,
+PRIMARY KEY (ID)
+);
+
+CREATE TABLE Reference (
+ID int UNSIGNED NOT NULL AUTO_INCREMENT,
+Accession_number varchar(16),
+Ref_sequence text,
+Segment tinyint,
+Description varchar(128),
+Assembly boolean,
+Upload_date date,
+PRIMARY KEY (ID)
+);
+
+CREATE TABLE Report (
+ID int UNSIGNED NOT NULL AUTO_INCREMENT,
+FK_Sequence_ID int UNSIGNED,
+Category varchar(16),
+DB_asigned_accession varchar(16),
+Reported bit,
+Reporting_date date,
+PRIMARY KEY (ID)
+);
+
+CREATE TABLE Mutation (
+ID int UNSIGNED NOT NULL AUTO_INCREMENT,
+Position smallint UNSIGNED,
+FK_Reference_ID int UNSIGNED,
+Mutation varchar(32),
+Protein varchar(32),
+Position_Aa smallint UNSIGNED,
+Reference_Aa varchar(24),
+Mutation_Aa varchar(24),
+PRIMARY KEY (ID)
+);
+
+CREATE TABLE Metadata (
+ID int UNSIGNED NOT NULL AUTO_INCREMENT,
+NVRL_ID varchar(16),
+Name varchar(32),
+Last_name varchar(32),
+Age tinyint,
+Date_of_birth date,
+Gender varchar(8),
+Sample_date date,
+Geographical_location varchar(32),
+County varchar(8),
+PRIMARY KEY (ID)
+);
+
+CREATE TABLE Sequence (
+ID int UNSIGNED NOT NULL AUTO_INCREMENT,
+Sequence text,
+FK_Plate_ID int UNSIGNED,
+Reportable bit,
+Barcode varchar(16),
+FK_Metadata_ID int UNSIGNED,
+Coverage decimal,
+Completion decimal,
+FK_Reference_ID int UNSIGNED,
+Similarity decimal
+FK_Assembly_ID int UNSIGNED,
+PRIMARY KEY (ID)
+);
+
+ALTER TABLE Sequence_mutation
+ADD FOREIGN KEY (FK_Sequence_ID) REFERENCES Sequence(ID),
+ADD FOREIGN KEY (FK_Mutation_ID) REFERENCES Mutation(ID);
+
+ALTER TABLE Report
+ADD FOREIGN KEY (FK_Sequence_ID) REFERENCES Sequence(ID);
+
+ALTER TABLE Mutation
+ADD FOREIGN KEY (FK_Reference_ID) REFERENCES Reference(ID);
+
+ALTER TABLE Sequence
+ADD FOREIGN KEY (FK_Plate_ID) REFERENCES Plate(ID),
+ADD FOREIGN KEY (FK_Metadata_ID) REFERENCES Metadata(ID),
+ADD FOREIGN KEY (FK_Reference_ID) REFERENCES Reference(ID),
+ADD FOREIGN KEY (FK_Assembly_ID) REFERENCES Reference(ID);
+
